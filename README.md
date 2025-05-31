@@ -3,7 +3,7 @@
 A modern, type-safe TypeScript SDK for the Paystack API. This SDK is automatically generated from Paystack's official OpenAPI specification and provides full type safety for all API endpoints.
 
 [![CI](https://github.com/roarexclamation/paystack-ts-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/roarexclamation/paystack-ts-sdk/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/%40roarexclamation%2Fpaystack-ts-sdk.svg)](https://badge.fury.io/js/%40roarexclamation%2Fpaystack-ts-sdk)
+[![npm version](https://badge.fury.io/js/@roarexclamation%2Fpaystack-ts-sdk.svg)](https://badge.fury.io/js/@roarexclamation%2Fpaystack-ts-sdk)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
 ## Features
