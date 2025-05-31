@@ -1,0 +1,75 @@
+{
+  "name": "@roarexclamation/paystack-ts-sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for Paystack API - A modern, type-safe client for payment processing in Africa",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.esm.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run generate && npm run compile",
+    "clean": "rimraf dist generated",
+    "generate": "openapi-generator-cli generate -i https://raw.githubusercontent.com/PaystackOSS/openapi/main/main/paystack.yaml -g typescript-fetch -o ./generated --skip-validate-spec --additional-properties=npmName=@roarexclamation/paystack-ts-sdk,supportsES6=true,withInterfaces=false,modelPropertyNaming=camelCase,paramNaming=camelCase,typescriptThreePlus=true && node scripts/fix-generated-code.js && node scripts/generate-dynamic-index.js",
+    "postgenerate": "node scripts/fix-generated-code.js && node scripts/generate-dynamic-index.js",
+    "fix-generated": "node scripts/fix-generated-code.js",
+    "generate-index": "node scripts/generate-dynamic-index.js",
+    "compile": "npm run compile:cjs && npm run compile:esm && npm run compile:types",
+    "compile:cjs": "tsc --project tsconfig.json",
+    "compile:esm": "tsc --project tsconfig.esm.json",
+    "compile:types": "tsc --project tsconfig.types.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "prepublishOnly": "npm run build && npm test && npm run lint",
+    "precheck": "node scripts/pre-publish-check.js",
+    "dev": "npm run generate && npm run compile:types && tsc --watch"
+  },
+  "keywords": [
+    "paystack",
+    "payment",
+    "typescript",
+    "sdk",
+    "api",
+    "africa",
+    "fintech",
+    "payments"
+  ],
+  "author": "roarexclamation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roarexclamation/paystack-ts-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/roarexclamation/paystack-ts-sdk/issues"
+  },
+  "homepage": "https://github.com/roarexclamation/paystack-ts-sdk#readme",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "jest": "^29.5.0",
+    "rimraf": "^5.0.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

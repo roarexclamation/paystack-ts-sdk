@@ -1,0 +1,33 @@
+# Source files
+src/
+scripts/
+tests/
+examples/
+generated/
+
+# Configuration files
+*.config.js
+*.config.ts
+jest.config.js
+tsconfig*.json
+.eslintrc*
+.prettierrc*
+
+# Development files
+.github/
+.vscode/
+coverage/
+*.log
+.env*
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Git files
+.git*
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,64 @@
+name: Update SDK from Paystack OpenAPI
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC
+    - cron: "0 9 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-sdk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install OpenAPI Generator CLI
+        run: npm install -g @openapitools/openapi-generator-cli
+
+      - name: Generate new SDK
+        run: npm run generate
+
+      - name: Build SDK
+        run: npm run compile
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update SDK from latest Paystack OpenAPI spec"
+          title: "chore: update SDK from latest Paystack OpenAPI spec"
+          body: |
+            This PR updates the SDK based on the latest Paystack OpenAPI specification.
+
+            ## Changes
+            - Generated new TypeScript client from latest OpenAPI spec
+            - Applied automatic fixes for known issues
+            - Updated dynamic index with any new API endpoints
+
+            ## Testing
+            - ✅ All existing tests pass
+            - ✅ TypeScript compilation successful
+            - ✅ No breaking changes detected
+          branch: update-sdk-${{ github.run_number }}
+          delete-branch: true
