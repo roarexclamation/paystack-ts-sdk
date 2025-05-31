@@ -45,6 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create Pull Request
         if: steps.git-check.outputs.changes == 'true'
         uses: peter-evans/create-pull-request@v5
@@ -64,5 +65,5 @@ jobs:
             - ✅ All existing tests pass
             - ✅ TypeScript compilation successful
             - ✅ No breaking changes detected
-          branch: update-sdk-${{ github.run_number }}
+          branch: auto-update-sdk
           delete-branch: true
