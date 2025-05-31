@@ -13,7 +13,7 @@ A modern, type-safe TypeScript SDK for the Paystack API. This SDK is automatical
 - 📡 **Complete**: Covers all Paystack API endpoints
 - 🔄 **Auto-Updated**: Weekly automatic updates from Paystack's OpenAPI spec
 - 🛠 **Developer Friendly**: Comprehensive documentation and examples
-- ⚡ **Lightweight**: Minimal dependencies and optimized bundle size
+- ⚡ **Lightweight**: No dependencies and optimized bundle size
 
 ## Installation
 
