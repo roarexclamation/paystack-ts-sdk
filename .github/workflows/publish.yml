@@ -12,7 +12,7 @@ on:
           - patch
           - minor
           - major
-          
+
 permissions:
   contents: write
   pull-requests: write
@@ -50,6 +50,11 @@ jobs:
       - name: Get current version
         id: current-version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Commit build changes
+        run: |
+          git add .
+          git diff --staged --quiet || git commit -m "chore: update generated files for release"
 
       - name: Bump version
         id: bump-version
