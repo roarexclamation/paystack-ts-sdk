@@ -143,13 +143,60 @@ function fixIndexFile() {
     return;
   }
 
+  console.log("🔧 Generating dynamic exports for index.ts...");
+
+  // Read the actual generated model files
+  const modelsPath = path.join(generatedSrcPath, "models");
+  const modelFiles = fs
+    .readdirSync(modelsPath)
+    .filter((file) => file.endsWith(".ts") && file !== "index.ts")
+    .map((file) => file.replace(".ts", ""))
+    .sort();
+
+  // Find API conflicts by checking what interfaces are defined in API files
+  const apisPath = path.join(generatedSrcPath, "apis");
+  const apiConflicts = new Set();
+
+  if (fs.existsSync(apisPath)) {
+    const apiFiles = fs
+      .readdirSync(apisPath)
+      .filter((file) => file.endsWith(".ts") && file !== "index.ts");
+
+    for (const apiFile of apiFiles) {
+      const content = fs.readFileSync(path.join(apisPath, apiFile), "utf8");
+      // Look for interface exports that might conflict with models
+      const interfaceMatches = content.match(/export interface (\w+)/g);
+      if (interfaceMatches) {
+        interfaceMatches.forEach((match) => {
+          const interfaceName = match.replace("export interface ", "");
+          if (modelFiles.includes(interfaceName)) {
+            apiConflicts.add(interfaceName);
+          }
+        });
+      }
+    }
+  }
+
+  console.log(`📋 Found ${modelFiles.length} model files to export`);
   console.log(
-    "🔧 Fixing duplicate CustomerRiskActionRiskActionEnum exports..."
+    `⚠️  Found ${apiConflicts.size} API conflicts: ${Array.from(
+      apiConflicts
+    ).join(", ")}`
   );
 
-  // The issue is that CustomerApi.ts exports an interface that uses the enum type,
-  // which causes TypeScript to implicitly re-export the enum.
-  // Solution: Use explicit exports to control what gets exported
+  // Generate exports for all models, with special handling for conflicts
+  const modelExports = modelFiles
+    .map((modelName) => {
+      if (modelName === "CustomerRiskAction") {
+        return `// Export only the interface to avoid enum conflict
+export { CustomerRiskAction } from './models/CustomerRiskAction';`;
+      } else if (apiConflicts.has(modelName)) {
+        return `// Skip ${modelName} - conflicts with API interface
+// export * from './models/${modelName}';`;
+      }
+      return `export * from './models/${modelName}';`;
+    })
+    .join("\n");
 
   const newContent = `/* tslint:disable */
 /* eslint-disable */
@@ -158,54 +205,12 @@ export * from './runtime';
 // Export all APIs first
 export * from './apis/index';
 
-// Export all models, but exclude the conflicting enum since it's already exported via APIs
-export * from './models/Bulk';
-export * from './models/Bulk1';
-export * from './models/BulkChargeInitiateRequestInner';
-export * from './models/Charge';
-export * from './models/ChargeAuthorization';
-export * from './models/CheckAuthorization';
-export * from './models/Create';
-export * from './models/Create1';
-export * from './models/Create2';
-export * from './models/Customer';
-export * from './models/CustomerAuthorization';
-export * from './models/CustomerBase';
-export * from './models/CustomerIdentification';
-// Skip CustomerRiskAction to avoid enum conflict - the enum is exported via APIs
-// export * from './models/CustomerRiskAction';
-export { CustomerRiskAction } from './models/CustomerRiskAction'; // Export only the interface, not the enum
-export * from './models/DisableOTP';
-export * from './models/Evidence';
-export * from './models/Finalize';
-export * from './models/Initialize';
-export * from './models/ModelError';
-export * from './models/PartialDebit';
-export * from './models/PaymentSession';
-export * from './models/Product';
-export * from './models/ResendOTP';
-export * from './models/Resolve';
-export * from './models/Response';
-export * from './models/Split';
-export * from './models/Subaccount';
-export * from './models/SubmitAddress';
-export * from './models/SubmitBirthday';
-export * from './models/SubmitOTP';
-export * from './models/SubmitPhone';
-export * from './models/SubmitPin';
-export * from './models/Toggle';
-export * from './models/Update';
-export * from './models/Update1';
-export * from './models/Update2';
-export * from './models/Update3';
-export * from './models/Update4';
-export * from './models/Update5';
-export * from './models/Update6';
-export * from './models/Update7';
+// Export all models dynamically (excluding API conflicts)
+${modelExports}
 `;
 
   fs.writeFileSync(indexPath, newContent);
-  console.log("✅ Applied explicit exports to resolve enum conflict");
+  console.log("✅ Applied dynamic exports to index.ts");
   console.log("✅ Fixed duplicate exports in index.ts");
 }
 

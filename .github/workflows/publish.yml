@@ -12,6 +12,10 @@ on:
           - patch
           - minor
           - major
+          
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   publish:
