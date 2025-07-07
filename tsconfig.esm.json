@@ -2,7 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "es2015",
-    "outDir": "./dist",
-    "target": "es2018"
+    "outDir": "./dist-esm",
+    "target": "es2018",
+    "declaration": false,
+    "declarationMap": false
   }
 }
