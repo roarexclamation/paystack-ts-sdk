@@ -98,7 +98,7 @@ import {
   ConfigurationParameters,
   // API classes
 ${apiMappings.map((api) => `  ${api.className},`).join("\n")}
-} from "../generated/src";
+} from "../generated/src/index.js";
 
 /**
  * Configuration options for the Paystack SDK
@@ -175,12 +175,12 @@ ${apiMappings
 }
 
 // Re-export commonly used types and interfaces
-export * from "../generated/src/models";
+export * from "../generated/src/models/index.js";
 export {
 ${apiMappings.map((api) => `  ${api.className},`).join("\n")}
   Configuration,
   ConfigurationParameters,
-} from "../generated/src";
+} from "../generated/src/index.js";
 `;
 
   // Write the generated index file
