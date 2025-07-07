@@ -1,5 +1,5 @@
 // This file is auto-generated. Do not edit manually.
-// Generated from: 2025-06-22T11:42:22.228Z
+// Generated from: 2025-07-07T09:40:19.826Z
 
 // Import everything from the generated SDK
 import {
@@ -26,7 +26,7 @@ import {
   TransferApi,
   TransferRecipientApi,
   VerificationApi,
-} from "../generated/src";
+} from "../generated/src/index.js";
 
 /**
  * Configuration options for the Paystack SDK
@@ -135,7 +135,7 @@ export class PaystackSDK {
 }
 
 // Re-export commonly used types and interfaces
-export * from "../generated/src/models";
+export * from "../generated/src/models/index.js";
 export {
   BalanceApi,
   BulkChargeApi,
@@ -159,4 +159,4 @@ export {
   VerificationApi,
   Configuration,
   ConfigurationParameters,
-} from "../generated/src";
+} from "../generated/src/index.js";
