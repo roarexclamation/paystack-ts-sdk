@@ -63,6 +63,24 @@ const paystack = new PaystackSDK({
 The SDK provides access to all Paystack API endpoints through organized client instances:
 
 <!-- API_DOCS_START -->
+### Applepay
+
+```typescript
+// Create applepay
+const newApplepay = await paystack.applepay.applePayRegisterDomain({
+  // Add required fields here
+});
+
+// List applepay
+const applepayList = await paystack.applepay.applePayListDomain();
+
+```
+
+**Available methods:**
+- `applePayListDomain()` - Returns Response
+- `applePayRegisterDomain()` - Returns ApplePayCreateOkModel
+- `applePayUnregisterDomain()` - Returns Response
+
 ### Balance
 
 ```typescript
@@ -77,8 +95,26 @@ const ledger = await paystack.balance.balanceLedger({
 ```
 
 **Available methods:**
-- `balanceFetch()` - Returns Response
-- `balanceLedger()` - Returns Response
+- `balanceFetch()` - Returns BalanceCheckResponse
+- `balanceLedger()` - Returns BalanceFetchLedgerResponse
+
+### Bank
+
+```typescript
+// Create bank
+const newBank = await paystack.bank.bankResolveAccountNumber({
+  // Add required fields here
+});
+
+// List bank
+const bankList = await paystack.bank.bankList();
+
+```
+
+**Available methods:**
+- `bankList()` - Returns MiscellaneousListBanksResponse
+- `bankResolveAccountNumber()` - Returns VerificationResolveAccountNumberResponse
+- `bankValidateAccountNumber()` - Returns VerificationValidateAccountResponse
 
 ### Bulkcharge
 
@@ -99,12 +135,12 @@ const bulkchargeList = await paystack.bulkcharge.bulkChargeList();
 ```
 
 **Available methods:**
-- `bulkChargeCharges()` - Returns Response
-- `bulkChargeFetch()` - Returns Response
-- `bulkChargeInitiate()` - Returns Response
-- `bulkChargeList()` - Returns Response
-- `bulkChargePause()` - Returns Response
-- `bulkChargeResume()` - Returns Response
+- `bulkChargeCharges()` - Returns BulkchargeCodeCharges
+- `bulkChargeFetch()` - Returns BulkchargeCode
+- `bulkChargeInitiate()` - Returns BulkChargeInitiateResponse
+- `bulkChargeList()` - Returns BulkChargeListResponse
+- `bulkChargePause()` - Returns BulkchargePauseCode
+- `bulkChargeResume()` - Returns BulkchargeResumeCode
 
 ### Charge
 
@@ -129,13 +165,13 @@ const submitOtp = await paystack.charge.chargeSubmitOtp({
 ```
 
 **Available methods:**
-- `chargeCheck()` - Returns Response
-- `chargeCreate()` - Returns Response
+- `chargeCheck()` - Returns ChargeReference
+- `chargeCreate()` - Returns ChargeCreateResponse
 - `chargeSubmitAddress()` - Returns Response
-- `chargeSubmitBirthday()` - Returns Response
-- `chargeSubmitOtp()` - Returns Response
-- `chargeSubmitPhone()` - Returns Response
-- `chargeSubmitPin()` - Returns Response
+- `chargeSubmitBirthday()` - Returns ChargeSubmitBirthdayResponse
+- `chargeSubmitOtp()` - Returns ChargeSubmitOtpResponse
+- `chargeSubmitPhone()` - Returns ChargeSubmitPhoneResponse
+- `chargeSubmitPin()` - Returns ChargeSubmitPinResponse
 
 ### Customer
 
@@ -164,13 +200,18 @@ const customers = await paystack.customers.list();
 ```
 
 **Available methods:**
-- `customerCreate()` - Returns Response
-- `customerDeactivateAuthorization()` - Returns Response
-- `customerFetch()` - Returns Response
-- `customerList()` - Returns Response
-- `customerRiskAction()` - Returns Response
-- `customerUpdate()` - Returns Response
-- `customerValidate()` - Returns Accepted
+- `customerCreate()` - Returns CustomerCreateResponse
+- `customerDeactivateAuthorization()` - Returns CustomerDeactivateAuthorizationResponse
+- `customerDirectDebitActivationCharge()` - Returns CustomerDirectDebitActivationChargeResponse
+- `customerFetch()` - Returns CustomerCode
+- `customerFetchMandateAuthorizations()` - Returns CustomerFetchMandateAuthorizationsResponse
+- `customerInitializeAuthorization()` - Returns CustomerAuthorizationInitializeResponse
+- `customerInitializeDirectDebit()` - Returns CustomerInitializeDirectDebitResponse
+- `customerList()` - Returns CustomerListResponse
+- `customerRiskAction()` - Returns CustomerWhitelistBlacklistResponse
+- `customerUpdate()` - Returns CustomerCode
+- `customerValidate()` - Returns CustomerCodeIdentification
+- `customerVerifyAuthorization()` - Returns CustomerAuthorizationVerifyResponse
 
 ### Dedicatedvirtualaccount
 
@@ -192,12 +233,31 @@ const dedicatedvirtualaccountList = await paystack.dedicatedvirtualaccount.dedic
 
 **Available methods:**
 - `dedicatedAccountAddSplit()` - Returns Response
+- `dedicatedAccountAssign()` - Returns Response
 - `dedicatedAccountAvailableProviders()` - Returns Response
-- `dedicatedAccountCreate()` - Returns Response
-- `dedicatedAccountDeactivate()` - Returns Response
-- `dedicatedAccountFetch()` - Returns Response
-- `dedicatedAccountList()` - Returns Response
+- `dedicatedAccountCreate()` - Returns DedicatedNubanCreateResponse
+- `dedicatedAccountDeactivate()` - Returns DedicatedAccountId
+- `dedicatedAccountFetch()` - Returns DedicatedAccountId
+- `dedicatedAccountList()` - Returns DedicatedNubanListResponse
 - `dedicatedAccountRemoveSplit()` - Returns Response
+- `dedicatedAccountRequery()` - Returns Response
+
+### Directdebit
+
+```typescript
+// Create directdebit
+const newDirectdebit = await paystack.directdebit.directdebitTriggerActivationCharge({
+  // Add required fields here
+});
+
+// List directdebit
+const directdebitList = await paystack.directdebit.directdebitListMandateAuthorizations();
+
+```
+
+**Available methods:**
+- `directdebitListMandateAuthorizations()` - Returns CustomerFetchMandateAuthorizationsResponse
+- `directdebitTriggerActivationCharge()` - Returns DirectDebitActivationChargeResponse
 
 ### Dispute
 
@@ -223,14 +283,14 @@ const disputeList = await paystack.dispute.disputeList();
 ```
 
 **Available methods:**
-- `disputeDownload()` - Returns Response
-- `disputeEvidence()` - Returns Response
-- `disputeFetch()` - Returns Response
-- `disputeList()` - Returns Response
-- `disputeResolve()` - Returns Response
-- `disputeTransaction()` - Returns Response
-- `disputeUpdate()` - Returns Response
-- `disputeUploadUrl()` - Returns Response
+- `disputeDownload()` - Returns DisputeExportResponse
+- `disputeEvidence()` - Returns DisputeAddEvidenceResponse
+- `disputeFetch()` - Returns DisputeFetchResponse
+- `disputeList()` - Returns DisputeListResponse
+- `disputeResolve()` - Returns DisputeResolveResponse
+- `disputeTransaction()` - Returns DisputeListTransactionResponse
+- `disputeUpdate()` - Returns DisputeUpdateResponse
+- `disputeUploadUrl()` - Returns DisputeUploadURLResponse
 
 ### Integration
 
@@ -253,8 +313,51 @@ const updatedIntegration = await paystack.integration.integrationUpdatePaymentSe
 ```
 
 **Available methods:**
-- `integrationFetchPaymentSessionTimeout()` - Returns Response
-- `integrationUpdatePaymentSessionTimeout()` - Returns Response
+- `integrationFetchPaymentSessionTimeout()` - Returns ControlPanelFetchPaymentSessionTimeoutResponse
+- `integrationUpdatePaymentSessionTimeout()` - Returns ControlPanelUpdatePaymentSessionTimeoutResponse
+
+### Miscellaneous
+
+```typescript
+// Create miscellaneous
+const newMiscellaneous = await paystack.miscellaneous.miscellaneousAvs({
+  // Add required fields here
+});
+
+// List miscellaneous
+const miscellaneousList = await paystack.miscellaneous.miscellaneousListCountries();
+
+```
+
+**Available methods:**
+- `miscellaneousAvs()` - Returns MiscellaneousListStatesResponse
+- `miscellaneousListCountries()` - Returns MiscellaneousListCountriesResponse
+- `miscellaneousResolveCardBin()` - Returns VerificationResolveCardBINResponse
+
+### Order
+
+```typescript
+// Create order
+const newOrder = await paystack.order.orderCreate({
+  // Add required fields here
+});
+
+// Fetch order
+const orderData = await paystack.order.orderFetch({
+  // Add identifier here
+});
+
+// List order
+const orderList = await paystack.order.orderList();
+
+```
+
+**Available methods:**
+- `orderCreate()` - Returns OrderCreateResponse
+- `orderFetch()` - Returns OrderFetchResponse
+- `orderFetchProducts()` - Returns OrderFetchProductResponse
+- `orderList()` - Returns OrderListResponse
+- `orderValidatePayForMe()` - Returns OrderValidateResponse
 
 ### Page
 
@@ -280,12 +383,12 @@ const pageList = await paystack.page.pageList();
 ```
 
 **Available methods:**
-- `pageAddProducts()` - Returns Response
-- `pageCheckSlugAvailability()` - Returns Response
-- `pageCreate()` - Returns Response
-- `pageFetch()` - Returns Response
-- `pageList()` - Returns Response
-- `pageUpdate()` - Returns Response
+- `pageAddProducts()` - Returns PageAddProductsResponse
+- `pageCheckSlugAvailability()` - Returns PageCheckSlugAvailabilityResponse
+- `pageCreate()` - Returns PageCreateResponse
+- `pageFetch()` - Returns PageFetchResponse
+- `pageList()` - Returns PageListResponse
+- `pageUpdate()` - Returns PageUpdateResponse
 
 ### Paymentrequest
 
@@ -311,15 +414,15 @@ const paymentrequestList = await paystack.paymentrequest.paymentRequestList();
 ```
 
 **Available methods:**
-- `paymentRequestArchive()` - Returns Response
-- `paymentRequestCreate()` - Returns Response
-- `paymentRequestFetch()` - Returns Response
-- `paymentRequestFinalize()` - Returns Response
-- `paymentRequestList()` - Returns Response
-- `paymentRequestNotify()` - Returns Response
-- `paymentRequestTotals()` - Returns Response
-- `paymentRequestUpdate()` - Returns Response
-- `paymentRequestVerify()` - Returns Response
+- `paymentRequestArchive()` - Returns PaymentRequestArchiveResponse
+- `paymentRequestCreate()` - Returns PaymentRequestCreateResponse
+- `paymentRequestFetch()` - Returns PaymentRequestListResponse
+- `paymentRequestFinalize()` - Returns PaymentRequestFinalizeResponse
+- `paymentRequestList()` - Returns PaymentRequestListResponse
+- `paymentRequestNotify()` - Returns PaymentRequestSendNotificationResponse
+- `paymentRequestTotals()` - Returns PaymentRequestTotalResponse
+- `paymentRequestUpdate()` - Returns PaymentRequestUpdateResponse
+- `paymentRequestVerify()` - Returns PaymentRequestVerifyResponse
 
 ### Plan
 
@@ -347,10 +450,10 @@ const plans = await paystack.plans.list();
 ```
 
 **Available methods:**
-- `planCreate()` - Returns Response
-- `planFetch()` - Returns Response
-- `planList()` - Returns Response
-- `planUpdate()` - Returns Response
+- `planCreate()` - Returns PlanCreateResponse
+- `planFetch()` - Returns PlanFetchResponse
+- `planList()` - Returns PlanListResponse
+- `planUpdate()` - Returns PlanUpdateResponse
 
 ### Product
 
@@ -376,11 +479,11 @@ const productList = await paystack.product.productList();
 ```
 
 **Available methods:**
-- `productCreate()` - Returns Response
-- `productDelete()` - Returns Response
-- `productFetch()` - Returns Response
-- `productList()` - Returns Response
-- `productUpdate()` - Returns Response
+- `productCreate()` - Returns ProductCreateResponse
+- `productDelete()` - Returns ProductDeleteResponse
+- `productFetch()` - Returns ProductFetchResponse
+- `productList()` - Returns ProductListsResponse
+- `productUpdate()` - Returns ProductUpdateResponse
 
 ### Refund
 
@@ -401,9 +504,9 @@ const refundDetails = await paystack.refund.refundFetch({
 ```
 
 **Available methods:**
-- `refundCreate()` - Returns Response
-- `refundFetch()` - Returns Response
-- `refundList()` - Returns Response
+- `refundCreate()` - Returns RefundCreateResponse
+- `refundFetch()` - Returns RefundFetchResponse
+- `refundList()` - Returns RefundListResponse
 
 ### Settlement
 
@@ -448,12 +551,48 @@ const splitList = await paystack.split.splitList();
 ```
 
 **Available methods:**
-- `splitAddSubaccount()` - Returns Response
-- `splitCreate()` - Returns Response
-- `splitFetch()` - Returns Response
-- `splitList()` - Returns Response
-- `splitRemoveSubaccount()` - Returns Response
-- `splitUpdate()` - Returns Response
+- `splitAddSubaccount()` - Returns SplitIdSubaccountAdd
+- `splitCreate()` - Returns SplitCreateResponse
+- `splitFetch()` - Returns SplitId
+- `splitList()` - Returns SplitListResponse
+- `splitRemoveSubaccount()` - Returns SplitIdSubaccountRemove
+- `splitUpdate()` - Returns SplitId
+
+### Storefront
+
+```typescript
+// Create storefront
+const newStorefront = await paystack.storefront.storefrontAddProducts({
+  // Add required fields here
+});
+
+// Fetch storefront
+const storefrontData = await paystack.storefront.storefrontFetch({
+  // Add identifier here
+});
+
+// Update storefront
+const updatedStorefront = await paystack.storefront.storefrontUpdate({
+  // Add fields to update
+});
+
+// List storefront
+const storefrontList = await paystack.storefront.storefrontList();
+
+```
+
+**Available methods:**
+- `storefrontAddProducts()` - Returns Response
+- `storefrontCreate()` - Returns StorefrontCreateResponse
+- `storefrontDelete()` - Returns StorefrontDeleteResponse
+- `storefrontDuplicate()` - Returns Response
+- `storefrontFetch()` - Returns StorefrontFetchResponse
+- `storefrontFetchOrders()` - Returns Response
+- `storefrontList()` - Returns StorefrontListResponse
+- `storefrontListProducts()` - Returns Response
+- `storefrontPublish()` - Returns Response
+- `storefrontUpdate()` - Returns StorefrontUpdateResponse
+- `storefrontVerifySlug()` - Returns Response
 
 ### Subaccount
 
@@ -479,10 +618,10 @@ const subaccountList = await paystack.subaccount.subaccountList();
 ```
 
 **Available methods:**
-- `subaccountCreate()` - Returns Response
-- `subaccountFetch()` - Returns Response
-- `subaccountList()` - Returns Response
-- `subaccountUpdate()` - Returns Response
+- `subaccountCreate()` - Returns SubaccountCreateResponse
+- `subaccountFetch()` - Returns SubaccountCode
+- `subaccountList()` - Returns SubaccountListResponse
+- `subaccountUpdate()` - Returns SubaccountCode
 
 ### Subscription
 
@@ -503,13 +642,46 @@ const subscriptionList = await paystack.subscription.subscriptionList();
 ```
 
 **Available methods:**
-- `subscriptionCreate()` - Returns Response
-- `subscriptionDisable()` - Returns Response
+- `subscriptionCreate()` - Returns SubscriptionCreateResponse
+- `subscriptionDisable()` - Returns SubscriptionDisableResponse
 - `subscriptionEnable()` - Returns Response
-- `subscriptionFetch()` - Returns Response
-- `subscriptionList()` - Returns Response
+- `subscriptionFetch()` - Returns SubscriptionFetchResponse
+- `subscriptionList()` - Returns SubscriptionListResponse
 - `subscriptionManageEmail()` - Returns Response
 - `subscriptionManageLink()` - Returns Response
+
+### Terminal
+
+```typescript
+// Create terminal
+const newTerminal = await paystack.terminal.terminalCommission({
+  // Add required fields here
+});
+
+// Fetch terminal
+const terminalData = await paystack.terminal.terminalFetch({
+  // Add identifier here
+});
+
+// Update terminal
+const updatedTerminal = await paystack.terminal.terminalUpdate({
+  // Add fields to update
+});
+
+// List terminal
+const terminalList = await paystack.terminal.terminalList();
+
+```
+
+**Available methods:**
+- `terminalCommission()` - Returns TerminalCommissionDeviceResponse
+- `terminalDecommission()` - Returns TerminalDecommissionDeviceResponse
+- `terminalFetch()` - Returns TerminalGetResponse
+- `terminalFetchEventStatus()` - Returns Response
+- `terminalFetchTerminalStatus()` - Returns TerminalGetStatusResponse
+- `terminalList()` - Returns TerminalListsResponse
+- `terminalSendEvent()` - Returns Response
+- `terminalUpdate()` - Returns TerminalUpdateResponse
 
 ### Transaction
 
@@ -539,18 +711,15 @@ const timeline = await paystack.transactions.timeline({
 ```
 
 **Available methods:**
-- `transactionChargeAuthorization()` - Returns Response
-- `transactionCheckAuthorization()` - Returns Response
-- `transactionDownload()` - Returns Response
-- `transactionEvent()` - Returns Response
-- `transactionFetch()` - Returns Response
-- `transactionInitialize()` - Returns Response
-- `transactionList()` - Returns Response
-- `transactionPartialDebit()` - Returns Response
-- `transactionSession()` - Returns Response
-- `transactionTimeline()` - Returns Response
-- `transactionTotals()` - Returns Response
-- `transactionVerify()` - Returns Response
+- `transactionChargeAuthorization()` - Returns ChargeAuthorizationResponse
+- `transactionExport()` - Returns TransactionExportResponse
+- `transactionFetch()` - Returns TransactionId
+- `transactionInitialize()` - Returns TransactionInitializeResponse
+- `transactionList()` - Returns TransactionListResponse
+- `transactionPartialDebit()` - Returns TransactionPartialDebitResponse
+- `transactionTimeline()` - Returns TransactionTimelineId
+- `transactionTotals()` - Returns TransactionTotalsResponse
+- `transactionVerify()` - Returns TransactionVerifyReference
 
 ### Transfer
 
@@ -574,17 +743,17 @@ const transfers = await paystack.transfer.transferList();
 ```
 
 **Available methods:**
-- `transferBulk()` - Returns Response
-- `transferDisableOtp()` - Returns Response
-- `transferDisableOtpFinalize()` - Returns Response
-- `transferDownload()` - Returns Response
-- `transferEnableOtp()` - Returns Response
-- `transferFetch()` - Returns Response
+- `transferBulk()` - Returns TransferBulkResponse
+- `transferDisableOtp()` - Returns TransferDisablesOtpResponse
+- `transferDisableOtpFinalize()` - Returns TransferFinalizeDisablesOtpResponse
+- `transferEnableOtp()` - Returns TransferEnablesOtpResponse
+- `transferExportTransfer()` - Returns Response
+- `transferFetch()` - Returns TransferCode
 - `transferFinalize()` - Returns Response
-- `transferInitiate()` - Returns Response
-- `transferList()` - Returns Response
-- `transferResendOtp()` - Returns Response
-- `transferVerify()` - Returns Response
+- `transferInitiate()` - Returns TransferCreateResponse
+- `transferList()` - Returns TransferListResponse
+- `transferResendOtp()` - Returns TransferResendsOtpResponse
+- `transferVerify()` - Returns TransferVerifyReference
 
 ### Transferrecipient
 
@@ -599,43 +768,57 @@ const transferrecipientData = await paystack.transferrecipient.transferrecipient
   // Add identifier here
 });
 
+// Update transferrecipient
+const updatedTransferrecipient = await paystack.transferrecipient.transferrecipientUpdate({
+  // Add fields to update
+});
+
 // List transferrecipient
 const transferrecipientList = await paystack.transferrecipient.transferrecipientList();
 
 ```
 
 **Available methods:**
-- `transferrecipientBulk()` - Returns Response
-- `transferrecipientCodeDelete()` - Returns Response
-- `transferrecipientCodePut()` - Returns Response
-- `transferrecipientCreate()` - Returns Response
-- `transferrecipientFetch()` - Returns Response
-- `transferrecipientList()` - Returns Response
+- `transferrecipientBulk()` - Returns TransferRecipientBulkCreateResponse
+- `transferrecipientCreate()` - Returns TransferRecipientCreateResponse
+- `transferrecipientDelete()` - Returns TransferrecipientCode
+- `transferrecipientFetch()` - Returns TransferrecipientCode
+- `transferrecipientList()` - Returns TransferRecipientListResponse
+- `transferrecipientUpdate()` - Returns TransferrecipientCode
 
-### Verification
+### Virtualterminal
 
 ```typescript
-// Create verification
-const newVerification = await paystack.verification.verificationAvs({
+// Create virtualterminal
+const newVirtualterminal = await paystack.virtualterminal.virtualTerminalAddSplitCode({
   // Add required fields here
 });
 
-// Fetch verification
-const verificationData = await paystack.verification.verificationFetchBanks({
+// Fetch virtualterminal
+const virtualterminalData = await paystack.virtualterminal.virtualTerminalFetch({
   // Add identifier here
 });
 
-// List verification
-const verificationList = await paystack.verification.verificationListCountries();
+// Update virtualterminal
+const updatedVirtualterminal = await paystack.virtualterminal.virtualTerminalUpdate({
+  // Add fields to update
+});
+
+// List virtualterminal
+const virtualterminalList = await paystack.virtualterminal.virtualTerminalList();
 
 ```
 
 **Available methods:**
-- `verificationAvs()` - Returns Response
-- `verificationFetchBanks()` - Returns Response
-- `verificationListCountries()` - Returns Response
-- `verificationResolveAccountNumber()` - Returns Response
-- `verificationResolveCardBin()` - Returns Response
+- `virtualTerminalAddSplitCode()` - Returns VirtualTerminalAddSplitCodeResponse
+- `virtualTerminalCreate()` - Returns VirtualTerminalCreateResponse
+- `virtualTerminalDeactivate()` - Returns VirtualTerminalDeactivateResponse
+- `virtualTerminalDeleteSplitCode()` - Returns VirtualTerminalDeleteSplitCodeResponse
+- `virtualTerminalDestinationAssign()` - Returns VirtualTerminalDestinationAssignResponse
+- `virtualTerminalDestinationUnassign()` - Returns VirtualTerminalDestinationUnassignResponse
+- `virtualTerminalFetch()` - Returns VirtualTerminalFetchResponse
+- `virtualTerminalList()` - Returns VirtualTerminalListResponse
+- `virtualTerminalUpdate()` - Returns VirtualTerminalUpdateResponse
 
 
 <!-- API_DOCS_END -->
