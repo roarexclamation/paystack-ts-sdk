@@ -119,3 +119,9 @@ yarn.lock
 # Paystack spec tracking file
 paystack-last.yaml
 paystack-current.yaml
+
+# Development/temporary scripts
+scripts/fix-robust.js
+scripts/fix-direct.js
+scripts/fix-duplicates.js
+scripts/fix-json-duplicates.js

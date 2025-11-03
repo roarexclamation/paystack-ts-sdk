@@ -2,8 +2,8 @@ name: Update SDK from Paystack OpenAPI
 
 on:
   schedule:
-    # Run daily at 9 AM UTC
-    - cron: "0 9 * * *"
+    # Run weekly on Wednesday at 2 PM UTC (Wednesday afternoon)
+    - cron: "0 14 * * 3"
   workflow_dispatch: # Allow manual trigger
 
 permissions:

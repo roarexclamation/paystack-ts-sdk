@@ -135,12 +135,12 @@ const bulkchargeList = await paystack.bulkcharge.bulkChargeList();
 ```
 
 **Available methods:**
-- `bulkChargeCharges()` - Returns BulkchargeCodeCharges
-- `bulkChargeFetch()` - Returns BulkchargeCode
+- `bulkChargeCharges()` - Returns BulkChargeFetchBulkBatchChargesResponse
+- `bulkChargeFetch()` - Returns BulkChargeFetchResponse
 - `bulkChargeInitiate()` - Returns BulkChargeInitiateResponse
 - `bulkChargeList()` - Returns BulkChargeListResponse
-- `bulkChargePause()` - Returns BulkchargePauseCode
-- `bulkChargeResume()` - Returns BulkchargeResumeCode
+- `bulkChargePause()` - Returns BulkChargePauseResponse
+- `bulkChargeResume()` - Returns BulkChargeResumeResponse
 
 ### Charge
 
@@ -165,7 +165,7 @@ const submitOtp = await paystack.charge.chargeSubmitOtp({
 ```
 
 **Available methods:**
-- `chargeCheck()` - Returns ChargeReference
+- `chargeCheck()` - Returns ChargeCheckPendingResponse
 - `chargeCreate()` - Returns ChargeCreateResponse
 - `chargeSubmitAddress()` - Returns Response
 - `chargeSubmitBirthday()` - Returns ChargeSubmitBirthdayResponse
@@ -203,14 +203,14 @@ const customers = await paystack.customers.list();
 - `customerCreate()` - Returns CustomerCreateResponse
 - `customerDeactivateAuthorization()` - Returns CustomerDeactivateAuthorizationResponse
 - `customerDirectDebitActivationCharge()` - Returns CustomerDirectDebitActivationChargeResponse
-- `customerFetch()` - Returns CustomerCode
+- `customerFetch()` - Returns CustomerFetchResponse
 - `customerFetchMandateAuthorizations()` - Returns CustomerFetchMandateAuthorizationsResponse
 - `customerInitializeAuthorization()` - Returns CustomerAuthorizationInitializeResponse
 - `customerInitializeDirectDebit()` - Returns CustomerInitializeDirectDebitResponse
 - `customerList()` - Returns CustomerListResponse
 - `customerRiskAction()` - Returns CustomerWhitelistBlacklistResponse
-- `customerUpdate()` - Returns CustomerCode
-- `customerValidate()` - Returns CustomerCodeIdentification
+- `customerUpdate()` - Returns CustomerUpdateResponse
+- `customerValidate()` - Returns CustomerValidateResponse
 - `customerVerifyAuthorization()` - Returns CustomerAuthorizationVerifyResponse
 
 ### Dedicatedvirtualaccount
@@ -236,8 +236,8 @@ const dedicatedvirtualaccountList = await paystack.dedicatedvirtualaccount.dedic
 - `dedicatedAccountAssign()` - Returns Response
 - `dedicatedAccountAvailableProviders()` - Returns Response
 - `dedicatedAccountCreate()` - Returns DedicatedNubanCreateResponse
-- `dedicatedAccountDeactivate()` - Returns DedicatedAccountId
-- `dedicatedAccountFetch()` - Returns DedicatedAccountId
+- `dedicatedAccountDeactivate()` - Returns DedicatedNubanDeactivateResponse
+- `dedicatedAccountFetch()` - Returns DedicatedNubanFetchResponse
 - `dedicatedAccountList()` - Returns DedicatedNubanListResponse
 - `dedicatedAccountRemoveSplit()` - Returns Response
 - `dedicatedAccountRequery()` - Returns Response
@@ -355,9 +355,9 @@ const orderList = await paystack.order.orderList();
 **Available methods:**
 - `orderCreate()` - Returns OrderCreateResponse
 - `orderFetch()` - Returns OrderFetchResponse
-- `orderFetchProducts()` - Returns OrderFetchProductResponse
 - `orderList()` - Returns OrderListResponse
-- `orderValidatePayForMe()` - Returns OrderValidateResponse
+- `orderProduct()` - Returns OrderFetchProductResponse
+- `orderValidate()` - Returns OrderValidateResponse
 
 ### Page
 
@@ -507,6 +507,7 @@ const refundDetails = await paystack.refund.refundFetch({
 - `refundCreate()` - Returns RefundCreateResponse
 - `refundFetch()` - Returns RefundFetchResponse
 - `refundList()` - Returns RefundListResponse
+- `refundRetry()` - Returns RefundRetryResponse
 
 ### Settlement
 
@@ -551,12 +552,12 @@ const splitList = await paystack.split.splitList();
 ```
 
 **Available methods:**
-- `splitAddSubaccount()` - Returns SplitIdSubaccountAdd
+- `splitAddSubaccount()` - Returns SplitAddUpdateSubaccountResponse
 - `splitCreate()` - Returns SplitCreateResponse
-- `splitFetch()` - Returns SplitId
+- `splitFetch()` - Returns SplitFetchResponse
 - `splitList()` - Returns SplitListResponse
-- `splitRemoveSubaccount()` - Returns SplitIdSubaccountRemove
-- `splitUpdate()` - Returns SplitId
+- `splitRemoveSubaccount()` - Returns SplitRemoveSubaccountResponse
+- `splitUpdate()` - Returns SplitUpdateResponse
 
 ### Storefront
 
@@ -619,9 +620,9 @@ const subaccountList = await paystack.subaccount.subaccountList();
 
 **Available methods:**
 - `subaccountCreate()` - Returns SubaccountCreateResponse
-- `subaccountFetch()` - Returns SubaccountCode
+- `subaccountFetch()` - Returns SubaccountFetchResponse
 - `subaccountList()` - Returns SubaccountListResponse
-- `subaccountUpdate()` - Returns SubaccountCode
+- `subaccountUpdate()` - Returns SubaccountUpdateResponse
 
 ### Subscription
 
@@ -713,13 +714,13 @@ const timeline = await paystack.transactions.timeline({
 **Available methods:**
 - `transactionChargeAuthorization()` - Returns ChargeAuthorizationResponse
 - `transactionExport()` - Returns TransactionExportResponse
-- `transactionFetch()` - Returns TransactionId
+- `transactionFetch()` - Returns TransactionFetchResponse
 - `transactionInitialize()` - Returns TransactionInitializeResponse
 - `transactionList()` - Returns TransactionListResponse
 - `transactionPartialDebit()` - Returns TransactionPartialDebitResponse
-- `transactionTimeline()` - Returns TransactionTimelineId
+- `transactionTimeline()` - Returns TransactionTimelineResponse
 - `transactionTotals()` - Returns TransactionTotalsResponse
-- `transactionVerify()` - Returns TransactionVerifyReference
+- `transactionVerify()` - Returns VerifyResponse
 
 ### Transfer
 
@@ -748,12 +749,12 @@ const transfers = await paystack.transfer.transferList();
 - `transferDisableOtpFinalize()` - Returns TransferFinalizeDisablesOtpResponse
 - `transferEnableOtp()` - Returns TransferEnablesOtpResponse
 - `transferExportTransfer()` - Returns Response
-- `transferFetch()` - Returns TransferCode
+- `transferFetch()` - Returns TransferFetchResponse
 - `transferFinalize()` - Returns Response
 - `transferInitiate()` - Returns TransferCreateResponse
 - `transferList()` - Returns TransferListResponse
 - `transferResendOtp()` - Returns TransferResendsOtpResponse
-- `transferVerify()` - Returns TransferVerifyReference
+- `transferVerify()` - Returns TransferVerifyResponse
 
 ### Transferrecipient
 
@@ -781,10 +782,10 @@ const transferrecipientList = await paystack.transferrecipient.transferrecipient
 **Available methods:**
 - `transferrecipientBulk()` - Returns TransferRecipientBulkCreateResponse
 - `transferrecipientCreate()` - Returns TransferRecipientCreateResponse
-- `transferrecipientDelete()` - Returns TransferrecipientCode
-- `transferrecipientFetch()` - Returns TransferrecipientCode
+- `transferrecipientDelete()` - Returns TransferRecipientDeleteResponse
+- `transferrecipientFetch()` - Returns TransferRecipientFetchResponse
 - `transferrecipientList()` - Returns TransferRecipientListResponse
-- `transferrecipientUpdate()` - Returns TransferrecipientCode
+- `transferrecipientUpdate()` - Returns TransferRecipientUpdateResponse
 
 ### Virtualterminal
 

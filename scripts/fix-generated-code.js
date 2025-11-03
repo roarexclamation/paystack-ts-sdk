@@ -240,12 +240,165 @@ function fixApisIndexFile() {
   console.log("✅ Fixed APIs index.ts import paths");
 }
 
+// 5. Fix duplicate properties in model files
+function fixDuplicateProperties() {
+  console.log("🔧 Fixing duplicate properties in model files...");
+  const modelsPath = path.join(generatedSrcPath, "models");
+
+  if (!fs.existsSync(modelsPath)) {
+    console.log("⚠️  models directory not found, skipping duplicate fixes");
+    return;
+  }
+
+  // List of files known to have duplicate issues
+  const problemFiles = [
+    "ChargeCreateResponseData.ts",
+    "CustomerFetchResponseData.ts",
+    "DisputeFetchResponseDataTransaction.ts",
+    "DisputeListResponseArrayTransaction.ts",
+    "DisputeListTransactionResponseDataTransaction.ts",
+    "RefundCreateResponseDataTransaction.ts",
+    "TransactionFetchResponseData.ts",
+    "TransactionListResponseArray.ts",
+    "TransferListResponseArrayRecipient.ts",
+    "TransferRecipientCreateResponseData.ts",
+    "TransferRecipientListResponseArray.ts",
+    "VerifyResponseData.ts",
+  ];
+
+  problemFiles.forEach((fileName) => {
+    const filePath = path.join(modelsPath, fileName);
+
+    if (!fs.existsSync(filePath)) {
+      console.log(`⚠️  ${fileName} not found`);
+      return;
+    }
+
+    let content = fs.readFileSync(filePath, "utf8");
+    const originalContent = content;
+    let modified = false;
+
+    // Fix interface duplicates by processing line by line
+    const lines = content.split("\n");
+    const filteredLines = [];
+    const seenProperties = new Set();
+    let inInterface = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      // Detect interface start
+      if (line.includes("export interface") && line.includes("{")) {
+        inInterface = true;
+        seenProperties.clear();
+        filteredLines.push(line);
+        continue;
+      }
+
+      // Detect interface end
+      if (inInterface && line.trim() === "}" && !line.includes("//")) {
+        inInterface = false;
+        seenProperties.clear();
+        filteredLines.push(line);
+        continue;
+      }
+
+      // Check for property in interface
+      if (inInterface) {
+        const propMatch = line.match(/^\s*(\w+):\s*(.+);/);
+        if (propMatch) {
+          const propName = propMatch[1];
+
+          if (seenProperties.has(propName)) {
+            console.log(
+              `   - Removing duplicate property '${propName}' in ${fileName}`
+            );
+            modified = true;
+            continue; // Skip duplicate
+          } else {
+            seenProperties.add(propName);
+          }
+        }
+      }
+
+      filteredLines.push(line);
+    }
+
+    content = filteredLines.join("\n");
+
+    // Fix JSON object literal duplicates
+    content = content.replace(
+      /export function (\w+)FromJSON\(json: any\): \w+ \{([\s\S]*?)return \{([\s\S]*?)\};\s*}/g,
+      (match, funcName, funcBody, returnBody) => {
+        const lines = returnBody.split("\n");
+        const seenProps = new Set();
+        const filteredReturnLines = [];
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed === "{" || trimmed === "}") {
+            filteredReturnLines.push(line);
+            continue;
+          }
+
+          const propMatch = trimmed.match(/^'(\w+)':/);
+          if (propMatch) {
+            const propName = propMatch[1];
+            if (seenProps.has(propName)) {
+              console.log(
+                `   - Removing duplicate JSON property '${propName}' in ${fileName}`
+              );
+              modified = true;
+              continue; // Skip duplicate
+            } else {
+              seenProps.add(propName);
+            }
+          }
+
+          filteredReturnLines.push(line);
+        }
+
+        const newReturnBody = filteredReturnLines.join("\n");
+        return `export function ${funcName}FromJSON(json: any): ${funcName.replace(
+          "FromJSON",
+          ""
+        )} {${funcBody}return {${newReturnBody}};
+}`;
+      }
+    );
+
+    if (modified) {
+      fs.writeFileSync(filePath, content);
+      console.log(`✅ Fixed duplicates in ${fileName}`);
+    } else if (content !== originalContent) {
+      fs.writeFileSync(filePath, content);
+      console.log(`✅ Applied minor fixes to ${fileName}`);
+    }
+  });
+
+  // Also fix BulkChargeApi undefined issue
+  const apiPath = path.join(generatedSrcPath, "apis", "BulkChargeApi.ts");
+  if (fs.existsSync(apiPath)) {
+    let content = fs.readFileSync(apiPath, "utf8");
+
+    if (content.includes("requestParameters.bulkChargeInitiate.map(")) {
+      content = content.replace(
+        /requestParameters\.bulkChargeInitiate\.map\(/g,
+        "requestParameters.bulkChargeInitiate?.map("
+      );
+      fs.writeFileSync(apiPath, content);
+      console.log("✅ Fixed BulkChargeApi.ts undefined issue");
+    }
+  }
+}
+
 // Run all fixes
 try {
   fixRuntimeFile();
   fixAPIFiles();
   fixIndexFile();
   fixApisIndexFile();
+  fixDuplicateProperties();
   console.log("🎉 All fixes applied successfully!");
 } catch (error) {
   console.error("❌ Error applying fixes:", error);
