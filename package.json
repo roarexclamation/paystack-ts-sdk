@@ -1,6 +1,6 @@
 {
   "name": "@roarexclamation/paystack-ts-sdk",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Modern TypeScript SDK for Paystack API - Complete type-safe client for payment processing in Africa with auto-generated types",
   "main": "dist/src/index.js",
   "module": "dist/src/index.mjs",
