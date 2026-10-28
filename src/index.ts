@@ -1,5 +1,5 @@
 // This file is auto-generated. Do not edit manually.
-// Generated from: 2026-05-15T10:05:18.319Z
+// Generated from: 2026-10-28T19:11:12.316Z
 
 // Import everything from the generated SDK
 import {
